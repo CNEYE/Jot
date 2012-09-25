@@ -84,7 +84,7 @@
 			Tiny.assign	   = {};//变量列表
 			Tiny.loop 	   = 0 ;//循环层级
 			
-			remain = template.replace(/\n/g,'')
+			remain = template.replace(/[\r\n]/g,'')
 						.replace(rsegmt,function(_,metacr,statement){
 				
 				var syntax ,match ,result = '' ,force;
@@ -125,8 +125,12 @@
 			result.push(Tiny.compiled.join(''));
 			result.push(Tiny.concats(true));
 			
-			//window.console && console.log(result.join(''));
-			return new Function('__data__',result.join(''));
+			//window.console && console.log(result.join('')); 
+			try{
+				return new Function('__data__',result.join(''));
+			}catch(e){
+				alert('模版错误'+e.message);
+			}
 		},
 		//语法,也就是开始的单词
 		syntax: {
@@ -247,7 +251,6 @@
 						head 	= '__plugin__(\''+syntax[0]+'\')('+
 							head+(syntax[1]?','+Tiny.syntax.value(syntax[1],true):'')+")";
 						
-						///result  += head;
 					}
 					return Tiny.concats(head,true);
 				}				
@@ -258,11 +261,9 @@
 				if (statement.indexOf('/function')>-1){
 					Tiny.funp = -1;
 					return Tiny.concats(true)+'}';
-					
 					} else if (statement.indexOf('/foreach') >-1){
 					Tiny.loop--;
 					Tiny.loopitem.pop();
-					
 				} else if (statement.indexOf('/code')>-1){
 					Tiny.incode =0;
 					return '';
@@ -301,7 +302,7 @@
 		predefined: function(statement){
 			
 			return statement.replace(rpredef,function(_,$1,$2){
-				if ( $2 == undefined){
+				if ( $2 == undefined || $2==''){
 					switch ($1){
 						case 'index':
 							return Tiny.loopindex;
