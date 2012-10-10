@@ -30,7 +30,7 @@
 		once: function(event,handler,data){
 			return this.addListener(event,handler,data,true);
 		},
-		//注意这里的可以删除所有的事件，也可以删除指定的事件，更可以删除一般情况下事件
+		//注意这里的可以删除所有的事件，也可以删除指定的事件，更可以删除全部事件
 		removeListener: function(event,handler,evt){
 			
 			this['@emitter'] || ( this['@emitter'] = {});
@@ -62,7 +62,7 @@
 			
 			if ( evt = this['@emitter'][event] ) {
 				for(var len = evt.length-1,len>=0;len--) {
-					retvalue = (item = evt[len]).handler(Jot.extend(item.data,data||{}));
+					retvalue = (item = evt[len]).handler(Jot.extend({},item.data,data||{}));
 					//只触发一次
 					if ( item.once ) {
 						evt.splice( len,1 );
