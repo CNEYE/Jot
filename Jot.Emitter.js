@@ -5,7 +5,7 @@
  define('Jot.Emitter',function(){
 	
 	var Emitter = function(){},
-	    expando = 'emitter'+ZDK.uuid();
+	    expando = 'Jot.Emitter'+ZDK.uuid();
 	
 	Emitter.prototype = {
 		//注册事件
