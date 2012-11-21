@@ -1,7 +1,7 @@
 Jot
 ===
  简单选择器
-  支持 
+  支持    
  
  1、id选择器 （#id）<br>
  	2、class选择器 (.class)<br>
